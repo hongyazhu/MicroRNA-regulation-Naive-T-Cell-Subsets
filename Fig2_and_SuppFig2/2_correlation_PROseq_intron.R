@@ -1,4 +1,5 @@
-# tmp correlation between PRO-seq and intron read counts
+# Calculating correlation between PRO-seq and intron read counts
+# Fig 2A, Supp Fig 2A-C
 
 tpm <- function(counts, lengths) {
   rate <- counts / lengths
@@ -6,9 +7,9 @@ tpm <- function(counts, lengths) {
 }
 
 
-# read in PROseq data
-batch1_PROgb_rc = read.csv("/workdir/hz543/projects/decay_rates_calc/CARP_data/PROseq_counts/GSE140365_batch1.genebody.read.count.tsv", header = T, sep = "\t") # 22020 genes
-batch2_PROgb_rc = read.csv("/workdir/hz543/projects/decay_rates_calc/CARP_data/PROseq_counts/GSE140365_batch2.genebody.read.count.tsv", header = T, sep = "\t") # 22033 genes
+# read in PROseq data (Patel et al., 2020), downloaded from GEO
+batch1_PROgb_rc = read.csv("GSE140365_batch1.genebody.read.count.tsv", header = T, sep = "\t") # 22020 genes
+batch2_PROgb_rc = read.csv("GSE140365_batch2.genebody.read.count.tsv", header = T, sep = "\t") # 22033 genes
 
 # record feature lengths
 batch1_PRO_feature_lengths = batch1_PROgb_rc$Feature_length
@@ -30,24 +31,16 @@ batch2_PROgb_rc <- data.frame(batch2_PROgb_rc, row.names = 1)
 batch1_PROgb_rc_tpm <- apply(batch1_PROgb_rc, 2, function(x) tpm(x, batch1_PRO_feature_lengths))
 batch2_PROgb_rc_tpm <- apply(batch2_PROgb_rc, 2, function(x) tpm(x, batch2_PRO_feature_lengths))
 
-#wrong here!
-#batch1_PROgb_rc_tpm = tpm(batch1_PROgb_rc, batch1_PRO_feature_lengths)
-#batch2_PROgb_rc_tpm = tpm(batch2_PROgb_rc, batch2_PRO_feature_lengths)
-
 # merge two batches
 merge_PROgb_rc_tpm = merge(batch1_PROgb_rc_tpm, batch2_PROgb_rc_tpm, by = 0) # 21978 genes
 
 # take the gene ID column as row names
 merge_PROgb_rc_tpm <- data.frame(merge_PROgb_rc_tpm, row.names = 1)
-
-# filter lowly expressed genes
-#low_counts_set = 1
-#merge_PROgb_rc_tpm_fil <- merge_PROgb_rc_tpm[rowMeans(merge_PROgb_rc_tpm) > low_counts_set,] # 14322 genes
+                        
                              
                              
                              
-                             
-exon_rc = read.table("/home/hz543/data/2020carp/RNAseq/carpRNAseq_counts_exon.txt", header = T, row.names = 1)
+exon_rc = read.table("carpRNAseq_counts_exon.txt", header = T, row.names = 1)
 exon_feature_lengths = exon_rc$Length
 exon_rc = exon_rc[,6:ncol(exon_rc)]
 colnames(exon_rc) = c('Empty_rep1_batch1', 'Empty_rep2_batch1', 'miR.1_rep1_batch1', 'miR.1_rep2_batch1', 'miR.122_rep1_batch1', 'miR.122_rep2_batch1',
@@ -57,7 +50,7 @@ colnames(exon_rc) = c('Empty_rep1_batch1', 'Empty_rep2_batch1', 'miR.1_rep1_batc
 
 
 
-gb_rc = read.table("/home/hz543/data/2020carp/RNAseq/carpRNAseq_counts_gb.txt", header = T, row.names = 1)
+gb_rc = read.table("carpRNAseq_counts_gb.txt", header = T, row.names = 1)
 gb_feature_lengths = gb_rc$Length
 gb_rc = gb_rc[,6:ncol(gb_rc)]
 colnames(gb_rc) = c('Empty_rep1_batch1', 'Empty_rep2_batch1', 'miR.1_rep1_batch1', 'miR.1_rep2_batch1', 'miR.122_rep1_batch1', 'miR.122_rep2_batch1',
@@ -65,12 +58,9 @@ colnames(gb_rc) = c('Empty_rep1_batch1', 'Empty_rep2_batch1', 'miR.1_rep1_batch1
                     'miR.155_rep1_batch2', 'miR.155_rep2_batch2', 'miR.155_rep3_batch2', 'miR.302a_rep1_batch2', 'miR.302a_rep2_batch2', 'miR.302a_rep3_batch2',
                     'miR.372_rep1_batch2', 'miR.372_rep2_batch2', 'miR.372_rep3_batch2', 'miR.373_rep1_batch2', 'miR.373_rep2_batch2', 'miR.373_rep3_batch2')
 
-
+# getting intron read counts
 intron_rc <- gb_rc - exon_rc
 intron_feature_lengths = gb_feature_lengths - exon_feature_lengths
-
-# <0 intron counts: lin28_counts_intron[rowSums(lin28_counts_intron < 0) > 0,]
-#write.table(lin28_counts_intron[rowSums(lin28_counts_intron < 0) > 0,], 'test.txt', quote = F)'
 
 intron_rc_noNeg <- intron_rc[rowSums(intron_rc < 0) == 0,]
 intron_length_noNeg = intron_feature_lengths[rowSums(intron_rc < 0) == 0]
@@ -87,7 +77,7 @@ tpm_intron_wIntron$gene_name = rownames(tpm_intron_wIntron)
 rownames(merge_PROgb_rc_tpm) = substr(rownames(merge_PROgb_rc_tpm), 1, 15)
 
 # file for converting ensembl id and gene name
-id2name = read.table("/home/hz543/data/human/gencode_annotation/ensemble_ID2gene_name.txt")
+id2name = read.table("/path/to/gencode_annotation/ensemble_ID2gene_name.txt")
 colnames(id2name) = c('id', 'gene_name')
 
 tpm_intron_wIntron_id = merge(tpm_intron_wIntron, id2name, by = 'gene_name')
