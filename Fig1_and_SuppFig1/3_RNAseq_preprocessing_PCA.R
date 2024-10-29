@@ -1,3 +1,5 @@
+# Preprocessing, batch effect removal and PCA-related analysis for RNAseq datasets.
+# Fig 1D-E, Supplemental Fig 1D.
 
 library(ggplot2)
 outputdir = 'inputs/exonIntron_matrix/'
