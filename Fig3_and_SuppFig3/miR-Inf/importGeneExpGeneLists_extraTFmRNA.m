@@ -1,7 +1,8 @@
 function importGeneExpGeneLists_extraTFmRNA(normGeneExprFile,targGeneFile,potRegFile,NEWpotRegmRNAlevels,...
     tfaGeneFile,outMat)
-% !!! modified from importGeneExpGeneLists.m by Emily R. Miraldi, Ph.D. Here I added NEWpotRegmRNAlevels as 
-%regulators mRNA levels from RNA-seq data
+% !!! modified from importGeneExpGeneLists.m by Emily R. Miraldi, Ph.D. Here I modify 
+% to also import NEWpotRegmRNAlevels, which will be the miRNA expression matrix, 
+% to be used as the expression levels of regulators.
 
 %% function importGeneExpGeneLists(normGeneExprFile,targGeneFile,potRegFile,...
 %    tfaGeneFile,outMat)
