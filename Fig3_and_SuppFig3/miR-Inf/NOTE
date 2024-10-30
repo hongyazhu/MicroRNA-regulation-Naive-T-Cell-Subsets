@@ -1,1 +1,53 @@
 
+
+added infLassoStARS/importGeneExpGeneLists_extraTFmRNA.m (added NEWpotRegmRNAlevels as new regulators levels (set as miRNA levels)
+
+
+glmnet/glmnetSet.m row 158:
+  options.cl               =   [-Inf;Inf];
+change to
+  options.cl               =      [0;Inf];
+goal is to limit solvs to only positive
+
+
+# comment out the glmnetControl sentences
+(or they will print out tons of      
+      fdev: 1.0000e-05
+    devmax: 0.9990
+       eps: 1.0000e-06
+       big: 9.9000e+35
+     mnlam: 5
+      pmin: 1.0000e-05
+      exmx: 250
+      prec: 1.0000e-10
+      mxit: 100
+ )
+
+projects/Inferelator/mirna_gene_naiveOnly_posregonly/infTRN_lassoStARS-master/glmnet/glmnet.m row 355:
+        glmnetControl(optset);
+-> 
+        %glmnetControl(optset);
+row 463:
+    glmnetControl(optset);
+->
+    %glmnetControl(optset);
+
+
+
+infLassoStARS/estimateInstabilitiesTRNbStARS.m
+at row 135, add:
+'
+is_one = priorWeightsMat == 1;
+priorWeightsMat( is_one ) = inf;'
+goal of this change: when predicting a certain gene, excluding all regulators that are not predicted regulators of this gene (inf values will be excluded as shown here:
+%   priorWeightsMat -- response X predictors matrix, showing what lambda
+%       weights will be multiplied by -- note: can contain infinite weights
+%       if TF-gene interaction should be filtered (e.g., based on CLR)     - row 39-41 in getMLassoStARSlambdaRangePerGene.m
+)
+should be used with bias != 1. reason: for miRNAs do not regulate a certain gene, the value in priorMat is 0, so the value in priorWeightsMat is 1 [estimateInstabilitiesTRNbStARS: priorWeightsMat = ones(totTargGenes,totPreds) - (1-lambdaBias)*abs(sign(priorMat));] (which would mean bigger penalty if case before this modification).
+if use bias=0 -> fatal error. penalty_factor is 0 would lead to breakdown
+
+
+infLassoStARS/estimateInstabilitiesTRNbStARS.m
+row 114 modified from 'priorWeightsMat = ones(totTargGenes,totPreds) - (1-lambdaBias)*abs(sign(priorMat)); '
+prior_mat should be scaled to 0-1 before input
