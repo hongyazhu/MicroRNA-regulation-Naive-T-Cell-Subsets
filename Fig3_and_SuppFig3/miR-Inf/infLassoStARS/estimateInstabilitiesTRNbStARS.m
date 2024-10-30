@@ -1,12 +1,14 @@
 function estimateInstabilitiesTRNbStARS(geneExprMat,tfaMat,lambdaBias,tfaOpt,...
     totSS,targetInstability,lambdaMin,lambdaMax,totLogLambdaSteps,subsampleFrac,...
     instabOutMat,leaveOutSampleList,bStarsTotSS,extensionLimit) 
-% edit is the addition of '
+% edit 1 is the addition of '
 % is_one = priorWeightsMat == 1;
 % priorWeightsMat( is_one ) = inf;'
-% at row 135 (currently row 141 with this comment) in estimateInstabilitiesTRNbStARS.m by Dr. Emily Miraldi.
+% at row 135 (currently row 143 with my new comments) in estimateInstabilitiesTRNbStARS.m by Dr. Emily Miraldi.
 % goal of this change: when predicting a certain gene, excluding all miRNAs that do not have target site at this gene (predicted by TargetScan) 
 % (inf values will be excluded as shown at row 39-41 in getMLassoStARSlambdaRangePerGene.m)
+% edit 2 is modification on row 114 (currently row 122 with my new comments)
+% goal is to make the strength of prior correlate with TargetScan total context score (not just 0 or 1)
 %% estimateInstabilitiesTRNbStARS(geneExprMat,tfaMat,lambdaBias,tfaOpt,...
 %     totSS,targetInstability,lambdaMin,lambdaMax,totLogLambdaSteps,subsampleFrac,...
 %     instabOutMat,leaveOutSampleList,bStarsTotSS,extensionLimit)
