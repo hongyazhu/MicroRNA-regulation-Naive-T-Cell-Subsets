@@ -1,5 +1,12 @@
-normGeneExprFile = 'inputs/exonIntron_matrix/decay_rates_match_noNA_noInf_noall0_10exon.txt';
-targGeneFile = 'inputs/exonIntron_matrix/targGene_match_noNA_noInf_noall0_10exon_tsmirnasexpressed1000_ct02.txt';
-potRegFile = 'inputs/mirna_DE/mirnas_expressed1000.txt';
-NEWpotRegmRNAlevels = 'inputs/mirna_exp_matrix/counts_vst_blindT_combat_expressed1000.txt';
-priorFile = 'inputs/prior/tsmirnasexpressed1000_ct02_contextscore0to1_targGeneonly.tsv';
+decay rates: inputs/exonIntron_matrix/decay_rates_match_noNA_noInf_noall0_10exon.txt'
+generated in Fig2_and_SuppFig2/5_decay_rates_for_naive_T_cell_datasets.R
+
+miRNA expression matrix: inputs/mirna_exp_matrix/counts_vst_blindT_combat_expressed1000.txt
+expressed miRNAs: inputs/mirna_DE/mirnas_expressed1000.txt
+generated in generating_miRNA_expression_matrix.R
+
+priorFile (scaled context scores from TargetScan): inputs/prior/tsmirnasexpressed1000_ct02_contextscore0to1_targGeneonly.tsv
+generated in generating_prior_from_TargetScan.R
+
+targGeneFile: inputs/exonIntron_matrix/targGene_match_noNA_noInf_noall0_10exon_tsmirnasexpressed1000_ct02.txt
+generated in generating_targGene_file.R
