@@ -13,11 +13,11 @@ library(readxl)
 ### read data in ###
 ####################
 
-targetscan_reg = read.table("/home/hz543/data/targetscan/mouse/Targetscan_mouse_ct02.txt")
+targetscan_reg = read.table("targetscan/mouse/Targetscan_mouse_ct02.txt")
 colnames(targetscan_reg) = c('transcript_id', 'gene_name', 'seed', 'mirna', 'total_context_score', 'cumulative_weighted_context_score', 'aggregate_pct')
 targetscan_reg = targetscan_reg[,c('gene_name', 'seed', 'total_context_score')]
 
-mir_family_info <- read.table("/home/hz543/ggbackup/workdir_210227/storage/targetscan/mouse/miR_Family_Info.txt", head = T, fill = T, sep = "\t")
+mir_family_info <- read.table("targetscan/mouse/miR_Family_Info.txt", head = T, fill = T, sep = "\t")
 mmu_mir_family_info <- mir_family_info[substr(mir_family_info[,'MiRBase.ID'] ,1 ,3) == "mmu", ]
 mmu_con_mir_family_info <- mmu_mir_family_info[mmu_mir_family_info[,'Family.Conservation.'] >= 2, ]
 seed_con <- mmu_con_mir_family_info[,c('Seed.m8', 'MiRBase.ID')]
