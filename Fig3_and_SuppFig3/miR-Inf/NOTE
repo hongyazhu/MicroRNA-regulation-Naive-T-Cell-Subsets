@@ -1,53 +1,31 @@
-Script from https://github.com/emiraldi/infTRN_lassoStARS/tree/2b39c6e45c74c04e9e8e74ff86214d897715cfb9. Only reporting added script and edits from those files:
-
-added infLassoStARS/importGeneExpGeneLists_extraTFmRNA.m (added NEWpotRegmRNAlevels as new regulators levels (set as miRNA levels)
-
-
-glmnet/glmnetSet.m row 158:
-  options.cl               =   [-Inf;Inf];
-change to
-  options.cl               =      [0;Inf];
-goal is to limit solvs to only positive
+Our miRNA target prediction framework, miR-Inf, is adapted from a transcriptional regulatory network, Inferelator (Miraldi et al., 2019; https://github.com/emiraldi/infTRN_lassoStARS).
+Key adaptaions made:
+1. Using estimated decay rates (see figure 2) instead of gene expression matrix as target gene levels. Estimated decay rates can better reflect miRNA regulation than gene expression levels.
+2. Using miRNA expression levels (small RNA-seq) instead of TF expression levels as expression levels of regulators (in our case miRNAs). importGeneExpGeneLists_extraTFmRNA.m is adapted from importGeneExpGeneLists.m to import the miRNA expression matrix as NEW potential regulator levels.
+3. Limiting solves to be positive only, as miRNAs can only accelerate decay of genes. When using function glmnetSet, set options.cl as instead of [-Inf;Inf] in getMLassoStARSlambdaRangePerGene.m and getMLassoStARSinstabilitiesPerGeneAndNet.m.
+4. Considering only miRNAs with target sites in a gene as potential regulators. A miRNA is not considered for a certain gene if the value for that TF and gene is 0 in the input prior matrix, achieved by changes in estimateInstabilitiesTRNbStARS.m (descibed below).
+5. Prior is not limited to 0 and 1. Strength of the prior is correlated with the strength of miRNA target prediction from Targetscan (which is reflected by total context score). If the absolute value of total context score is larger, the miRNA targeting is predicted to be stronger, and the prior will be more strongly incorporated. This is achieved by changes in estimateInstabilitiesTRNbStARS.m.
 
 
-# comment out the glmnetControl sentences
-(or they will print out tons of      
-      fdev: 1.0000e-05
-    devmax: 0.9990
-       eps: 1.0000e-06
-       big: 9.9000e+35
-     mnlam: 5
-      pmin: 1.0000e-05
-      exmx: 250
-      prec: 1.0000e-10
-      mxit: 100
- )
+Here are the detailed changes in the scripts:
 
-projects/Inferelator/mirna_gene_naiveOnly_posregonly/infTRN_lassoStARS-master/glmnet/glmnet.m row 355:
-        glmnetControl(optset);
--> 
-        %glmnetControl(optset);
-row 463:
-    glmnetControl(optset);
-->
-    %glmnetControl(optset);
+Adaptation 2:
+infLassoStARS/importGeneExpGeneLists_extraTFmRNA.m 
 
+Adaptation 3:
+getMLassoStARSlambdaRangePerGene.m line 116 and getMLassoStARSinstabilitiesPerGeneAndNet.m line 74
+preivous: options = glmnetSet;
+now: opts.cl = [0;Inf]; options = glmnetSet(opts);
 
-
-infLassoStARS/estimateInstabilitiesTRNbStARS.m
+Adaptation 4:
+estimateInstabilitiesTRNbStARS.m
 at row 135, add:
 '
 is_one = priorWeightsMat == 1;
 priorWeightsMat( is_one ) = inf;'
-goal of this change: when predicting a certain gene, excluding all regulators that are not predicted regulators of this gene (inf values will be excluded as shown here:
-%   priorWeightsMat -- response X predictors matrix, showing what lambda
-%       weights will be multiplied by -- note: can contain infinite weights
-%       if TF-gene interaction should be filtered (e.g., based on CLR)     - row 39-41 in getMLassoStARSlambdaRangePerGene.m
-)
-should be used with bias != 1. reason: for miRNAs do not regulate a certain gene, the value in priorMat is 0, so the value in priorWeightsMat is 1 [estimateInstabilitiesTRNbStARS: priorWeightsMat = ones(totTargGenes,totPreds) - (1-lambdaBias)*abs(sign(priorMat));] (which would mean bigger penalty if case before this modification).
-if use bias=0 -> fatal error. penalty_factor is 0 would lead to breakdown
 
-
-infLassoStARS/estimateInstabilitiesTRNbStARS.m
-row 114 modified from 'priorWeightsMat = ones(totTargGenes,totPreds) - (1-lambdaBias)*abs(sign(priorMat)); '
-prior_mat should be scaled to 0-1 before input
+Adaptation 5:
+estimateInstabilitiesTRNbStARS.m row 114 
+previous: priorWeightsMat = ones(totTargGenes,totPreds) - (1-lambdaBias)*abs(sign(priorMat)); 
+now: priorWeightsMat = ones(totTargGenes,totPreds) - (1-lambdaBias)*priorMat;
+Priors should be scaled to 0-1 before input.
