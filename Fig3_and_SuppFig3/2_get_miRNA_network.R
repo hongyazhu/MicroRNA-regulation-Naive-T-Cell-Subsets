@@ -12,9 +12,6 @@ bias = 5
 outputpath = paste0('analyze_network/ms', ms, '/bias', bias, '/prioritizeTargets')
 dir.create(outputpath, showWarnings = FALSE, recursive = TRUE)
 
-shared_by_nets = 0
-num = shared_by_nets
-#tfaOpt = c('', '_TFmRNA')
 networkfolder = 'outputs'
 
 tfaOpt = c('_TFmRNA')
