@@ -156,7 +156,7 @@ pos_regs_TFmRNA = sp_all_pos
 
 
 # from Targetscan, find miRNAs' seed sequence (used to find targets) 
-mir_family_info <- read.table("/home/hz543/ggbackup/workdir_210227/storage/targetscan/mouse/miR_Family_Info.txt", head = T, fill = T, sep = "\t") 
+mir_family_info <- read.table("targetscan/mouse/miR_Family_Info.txt", head = T, fill = T, sep = "\t") 
 hsa_mir_family_info <- mir_family_info[substr(mir_family_info[,'MiRBase.ID'] ,1 ,3) == "mmu", ] 
 hsa_con_mir_family_info <- hsa_mir_family_info[hsa_mir_family_info[,'Family.Conservation.'] >= 2, ] 
 seed_con <- hsa_con_mir_family_info[,c('Seed.m8', 'MiRBase.ID')] 
@@ -186,8 +186,8 @@ pos_regs_TFmRNA = pos_regs_TFmRNA[, c("TF->Target,direction", "miRNA_seed", "tar
 pos_regs_TFmRNA_freqTFmRNAmorethan4 = pos_regs_TFmRNA[pos_regs_TFmRNA$freqTFmRNA >= 4, ]
 pos_regs_TFmRNA_freqTFmRNAmorethan4 = pos_regs_TFmRNA_freqTFmRNAmorethan4[!is.na(pos_regs_TFmRNA_freqTFmRNAmorethan4$miRNA_seed),]
 
-ts_nopct = read.table('/workdir/hz543/projects/Inferelator/mirna_gene_naiveOnly_noSP8_wt_prior/inputs/prior/ts_ct02_contextscore.tsv')
-ts = read.table('/workdir/hz543/projects/Inferelator/mirna_gene_naiveOnly_noSP8_wt_prior/inputs/prior/ts_ct02_pct75_b.tsv')
+ts_nopct = read.table('inputs/prior/ts_ct02_contextscore.tsv')
+ts = read.table('inputs/prior/ts_ct02_pct75_b.tsv')
 
 pos_regs_TFmRNA_freqTFmRNAmorethan4$ts_nopct = NA
 for(i in 1:nrow(pos_regs_TFmRNA_freqTFmRNAmorethan4)){
