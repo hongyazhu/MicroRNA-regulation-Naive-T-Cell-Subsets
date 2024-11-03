@@ -33,8 +33,7 @@ function mirnaSeedReltsNopctCt0to1_noSP8_wt_prior_ct02_seed()
     end
 end
 
-%% arguments are added by me. In the scripts, the lines used to define arguments are commented out by '%argument '
-% these are the arguments - 
+% arguments - 
 % matlabDir: directory of auxiliary matlab functions (infLassoStARS, glmnet, customMatlabFxns) [..]
 
 % outputFolder: output directory. [./outputs]
