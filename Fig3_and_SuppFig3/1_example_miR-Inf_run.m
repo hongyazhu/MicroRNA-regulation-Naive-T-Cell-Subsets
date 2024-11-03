@@ -59,7 +59,6 @@ diary(diaryFile)
 diary on
 
 maxNumCompThreads(4) 
-% added by me!
 
 %% example_workflow_Th17
 % Use mLASSO-StARS to build a TRN from gene expression and prior
