@@ -357,12 +357,6 @@ plot_barplot_lineplots_cd8devproject <- function(matrix, seed, network_path, plo
 
 sample_info = read.table('inputs/mirna_exp_matrix/sample_info.txt', sep = '\t')
 
-raw = read.table('inputs/mirna_exp_matrix/counts_raw_expressed1000.txt')
-sample_info_sub = sample_info[sample_info[,'Source'] == 'CD8 Dev', ]
-raw_sub = raw[colnames(raw) %in% sample_info_sub$Sample]
-raw_subnotall0 = raw_sub[rowSums(raw_sub[])>0,]
-seeds = rownames(raw_subnotall0)
-
 decay_rates_input = read.table('inputs/exonIntron_matrix/decay_rates.txt', header = T, row.names = 1)
 cpm_wholegene_input = cd8dev_counts_wholegene_rel_cpm
 
