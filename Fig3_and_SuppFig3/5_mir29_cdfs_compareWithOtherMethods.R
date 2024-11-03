@@ -97,9 +97,7 @@ plot_barplot_lineplots_cd8devproject <- function(matrix, seed, network_path, plo
     miRNA_weak_ts1 <- weak_targets[weak_targets$seed == seed1,]$gene_name
     miRNA_weak_ts2 <- weak_targets[weak_targets$seed == seed2,]$gene_name
     miRNA_weak_ts = union(miRNA_weak_ts1, miRNA_weak_ts2)
-  }
-  #miRNA_weak_ts <- weak_targets_geneID[weak_targets_geneID$seed == seed,]$gene_id
-  
+  }  
   
   
   ### Targetscan targets
