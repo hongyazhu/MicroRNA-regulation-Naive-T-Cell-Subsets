@@ -12,3 +12,5 @@ write.table(net_let7_con, 'make_figures/ct02_ms2_4ormore/net_let7_con.tsv', sep 
 
 # background in STRING-DB: inputs/exonIntron_matrix/targGene_match_noNA_noInf_noall0_10exon_tsmirnasexpressed1000_ct02.txt 
 # (generated in Fig3_and_SuppFig3/0_inputs_for_miR-Inf/generating_targGene_file.R)
+
+# Enrichment analysis for protein-protein interaction and gene sets from different databases (Figure 4A-D) is performed on STRING-DB website, with background described above.
