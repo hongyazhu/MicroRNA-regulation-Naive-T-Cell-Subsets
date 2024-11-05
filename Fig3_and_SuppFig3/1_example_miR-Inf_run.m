@@ -12,7 +12,7 @@ function mirnaSeedReltsNopctCt0to1_noSP8_wt_prior_ct02_seed()
                     tfaOpt = tfaOpts{tfaOptNum};
                     name_this_run = ['bias' num2str(100*lambdaBias) tfaOpt '_modelSize' num2str(meanEdgesPerGene)];
                     diaryFile = ['outputs/mirnaSeed_tsonly_noSP8_wt_ct02_seed' num2str(seed) '/' name_this_run '.log'];
-                    matlabDir = 'infTRN_lassoStARS-master_clChangedOutside';
+                    matlabDir = 'miR-Inf';
                     outputFolder = ['outputs/mirnaSeed_tsonly_noSP8_wt_ct02_seed' num2str(seed) '/' name_this_run ];
                     normGeneExprFile = 'inputs/exonIntron_matrix/decay_rates_match_noNA_noInf_noall0_10exon.txt';
                     targGeneFile = 'inputs/exonIntron_matrix/targGene_match_noNA_noInf_noall0_10exon_tsmirnasexpressed1000_ct02.txt';
