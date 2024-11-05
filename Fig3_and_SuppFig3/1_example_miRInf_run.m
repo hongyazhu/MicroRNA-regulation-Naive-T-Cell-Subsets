@@ -2,7 +2,7 @@
 %% miR-Inf is adapted from Inferelator: Miraldi et al. (2018) "Leveraging chromatin accessibility for transcriptional regulatory network inference in T Helper 17 Cells"
 %% code was adapted from example_workflow_Th17 by Dr. Emily Miraldi (https://github.com/emiraldi/infTRN_lassoStARS)
 
-function example_miRInf_run()
+function 1_example_miRInf_run()
     tfaOpts = {'', '_TFmRNA'};
     for tfaOptNum = length(tfaOpts) % Only using '_TFmRNA' option
         for meanEdgesPerGene = [2] % reaches the largest network
