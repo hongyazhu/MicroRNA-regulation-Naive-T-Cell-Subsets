@@ -15,7 +15,7 @@ Adaptation 2:
 adding infLassoStARS/importGeneExpGeneLists_extraTFmRNA.m 
 
 Adaptation 3:
-getMLassoStARSlambdaRangePerGene.m line 116 and getMLassoStARSinstabilitiesPerGeneAndNet.m line 74
+getMLassoStARSlambdaRangePerGene.m line 116 and getMLassoStARSinstabilitiesPerGeneAndNet.m line 74.
 preivous: options = glmnetSet;
 now: opts.cl = [0;Inf]; options = glmnetSet(opts);
 
@@ -27,7 +27,7 @@ is_one = priorWeightsMat == 1;
 priorWeightsMat( is_one ) = inf;'
 
 Adaptation 5:
-estimateInstabilitiesTRNbStARS.m row 114 
+estimateInstabilitiesTRNbStARS.m row 114.
 previous: priorWeightsMat = ones(totTargGenes,totPreds) - (1-lambdaBias)*abs(sign(priorMat)); 
 now: priorWeightsMat = ones(totTargGenes,totPreds) - (1-lambdaBias)*priorMat;
 Priors should be scaled to 0-1 before input.
