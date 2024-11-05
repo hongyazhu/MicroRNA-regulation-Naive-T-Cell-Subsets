@@ -12,7 +12,7 @@ Key adaptaions made from the Inferelator algorithm to our miR-Inf framework:
 Here are the detailed changes in the scripts:
 
 Adaptation 2:
-infLassoStARS/importGeneExpGeneLists_extraTFmRNA.m 
+adding infLassoStARS/importGeneExpGeneLists_extraTFmRNA.m 
 
 Adaptation 3:
 getMLassoStARSlambdaRangePerGene.m line 116 and getMLassoStARSinstabilitiesPerGeneAndNet.m line 74
